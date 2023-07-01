@@ -313,6 +313,11 @@ AFRAME.registerComponent('beat', {
 
     this.blockEl = document.createElement('a-entity');
     this.blockEl.setAttribute('mixin', 'beatBlock');
+    this.blockEl.setAttribute(
+      "stereo-beat",
+      `eye: ${this.data.color === "red" ? "left" : "right"}`
+    );
+
     this.el.appendChild(this.blockEl);
     this.initMesh();
 
