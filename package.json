@@ -64,12 +64,13 @@
     "uglify-es": "git://github.com/mishoo/UglifyJS2.git#harmony",
     "uglify-js": "git://github.com/mishoo/UglifyJS2#harmony",
     "uglifyjs-webpack-plugin": "0.4.6",
+    "unzip-js": "^1.0.0",
     "url-loader": "^1.1.2",
     "webpack": "^4.46.0",
+    "webpack-cli": "3.3.12",
     "webpack-glsl-loader": "^1.0.1",
     "webpack-sources": "1.0.1",
-    "zip-loader": "github:ngokevin/ziploader#xhrdist",
-    "unzip-js": "^1.0.0"
+    "zip-loader": "github:ngokevin/ziploader#xhrdist"
   },
   "overrides": {
     "aframe-render-order-component": {
