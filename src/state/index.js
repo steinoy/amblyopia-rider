@@ -1,7 +1,7 @@
 /* global localStorage */
-import COLORS from '../constants/colors';
-const utils = require('../utils');
-const convertBeatmap = require('../lib/convert-beatmap');
+import COLORS from "../constants/colors";
+const utils = require("../utils");
+const convertBeatmap = require("../lib/convert-beatmap");
 
 const challengeDataStore = {};
 let HAS_LOGGED_VR = false;
@@ -15,31 +15,31 @@ const DAMAGE_DECAY = 0.25;
 const DAMAGE_MAX = 10;
 
 const difficultyMap = {
-  "Easy": 'Easy',
-  "Expert": 'Expert',
-  "ExpertPlus": 'Expert+',
-  "Hard": 'Hard',
-  "Normal": 'Normal',
+  Easy: "Easy",
+  Expert: "Expert",
+  ExpertPlus: "Expert+",
+  Hard: "Hard",
+  Normal: "Normal",
 };
 
 const badSongs = {};
 
 const DEBUG_CHALLENGE = {
-  author: 'Juancho Pancho',
-  difficulty: 'Expert',
-  id: '31',
-  image: 'assets/img/molerat.jpg',
+  author: "Juancho Pancho",
+  difficulty: "Expert",
+  id: "31",
+  image: "assets/img/molerat.jpg",
   songDuration: 100,
-  songName: 'Friday',
+  songName: "Friday",
   songLength: 100,
-  songSubName: 'Rebecca Black'
+  songSubName: "Rebecca Black",
 };
 
-const SKIP_INTRO = AFRAME.utils.getUrlParameter('skipintro') === 'true';
+const SKIP_INTRO = AFRAME.utils.getUrlParameter("skipintro") === "true";
 
-const colorScheme = localStorage.getItem('colorScheme') || 'default';
+const colorScheme = localStorage.getItem("colorScheme") || "default";
 
-let favorites = localStorage.getItem('favorites-v2');
+let favorites = localStorage.getItem("favorites-v2");
 if (favorites) {
   try {
     favorites = JSON.parse(favorites);
@@ -61,104 +61,109 @@ if (favorites) {
  *    `bind__<componentName>="<propertyName>: some.item.in.state"`
  */
 AFRAME.registerState({
-  nonBindedStateKeys: ['genres'],
+  nonBindedStateKeys: ["genres"],
 
   initialState: {
-    activeHand: localStorage.getItem('hand') || 'right',
-    challenge: {  // Actively playing challenge.
-      audio: '',  // URL.
-      author: '',
-      difficulty: '',
-      beatmapCharacteristic: '',
-      id: AFRAME.utils.getUrlParameter('challenge'),  // Will be empty string if not playing.
-      image: '',
-      isBeatsPreloaded: false,  // Whether we have passed the negative time.
+    activeHand: localStorage.getItem("hand") || "right",
+    challenge: {
+      // Actively playing challenge.
+      audio: "", // URL.
+      author: "",
+      difficulty: "",
+      beatmapCharacteristic: "",
+      id: AFRAME.utils.getUrlParameter("challenge"), // Will be empty string if not playing.
+      image: "",
+      isBeatsPreloaded: false, // Whether we have passed the negative time.
       numBeats: undefined,
       songDuration: 0,
-      songName: '',
-      songNameShort: '',
-      songSubName: '',
+      songName: "",
+      songNameShort: "",
+      songSubName: "",
       metadata: {},
     },
     colorPrimary: COLORS.schemes[colorScheme].primary,
+    colorPrimaryBright: COLORS.schemes[colorScheme].primarybright,
     colorScheme: colorScheme,
     colorSecondary: COLORS.schemes[colorScheme].secondary,
     colorSecondaryBright: COLORS.schemes[colorScheme].secondarybright,
     colorTertiary: COLORS.schemes[colorScheme].tertiary,
-    controllerType: '',
+    controllerType: "",
     damage: 0,
-    difficultyFilter: 'All',
+    difficultyFilter: "All",
     difficultyFilterMenuOpen: false,
     favorites: favorites,
-    gameMode: 'ride',
-    genre: '',
-    genres: require('../constants/genres'),
+    gameMode: "ride",
+    genre: "",
+    genres: require("../constants/genres"),
     genreMenuOpen: false,
     has3DOFVR: false,
     has6DOFVR: false,
     hasSongLoadError: false,
-    hasVR: AFRAME.utils.device.checkHeadsetConnected() ||
-      AFRAME.utils.getUrlParameter('debugvr') === 'true',
-    introActive: !SKIP_INTRO,  // Just started game, main menu not opened yet.
-    inVR: AFRAME.utils.getUrlParameter('debugvr') === 'true',
+    hasVR:
+      AFRAME.utils.device.checkHeadsetConnected() ||
+      AFRAME.utils.getUrlParameter("debugvr") === "true",
+    introActive: !SKIP_INTRO, // Just started game, main menu not opened yet.
+    inVR: AFRAME.utils.getUrlParameter("debugvr") === "true",
     isIOS: AFRAME.utils.device.isIOS(),
-    isGameOver: false,  // Game over screen.
-    isLoading: false,  // Entire song loading process after selected (ZIP + process).
+    isGameOver: false, // Game over screen.
+    isLoading: false, // Entire song loading process after selected (ZIP + process).
     isMenuOpening: !SKIP_INTRO,
-    isPaused: false,  // Playing, but paused. Not active during menu.
-    isPlaying: false,  // Actively playing (slicing beats).
-    isSearching: false,  // Whether search is open.
+    isPaused: false, // Playing, but paused. Not active during menu.
+    isPlaying: false, // Actively playing (slicing beats).
+    isSearching: false, // Whether search is open.
     isSongProcessing: false,
-    isVictory: false,  // Victory screen.
+    isVictory: false, // Victory screen.
     isZipFetching: false,
     leaderboard: [],
     leaderboardFetched: false,
     leaderboardQualified: false,
-    leaderboardNames: '',
-    leaderboardScores: '',
+    leaderboardNames: "",
+    leaderboardScores: "",
     mainMenuActive: false,
     menuActive: SKIP_INTRO, // Main menu active.
     menuDifficulties: [],
     menuDifficultiesIds: [],
-    menuSelectedChallenge: {  // Currently selected challenge in the main menu.
-      author: '',
-      difficulty: '',
-      beatmapCharacteristic: '',
-      downloads: '',
-      downloadsText: '',
-      genre: '',
-      id: '',
+    menuSelectedChallenge: {
+      // Currently selected challenge in the main menu.
+      author: "",
+      difficulty: "",
+      beatmapCharacteristic: "",
+      downloads: "",
+      downloadsText: "",
+      genre: "",
+      id: "",
       index: -1,
-      image: '',
+      image: "",
       isFavorited: false,
       numBeats: undefined,
       songDuration: 0,
-      songInfoText: '',
+      songInfoText: "",
       songLength: undefined,
       numBeats: undefined,
-      songName: '',
-      songSubName: '',
-      version: '',
+      songName: "",
+      songSubName: "",
+      version: "",
       metadata: {},
     },
     optionsMenuOpen: false,
-    playlist: '',
-    playlists: require('../constants/playlists'),
+    stereoSettingsMenuOpen: false,
+    playlist: "",
+    playlists: require("../constants/playlists"),
     playlistMenuOpen: false,
-    playlistTitle: '',
+    playlistTitle: "",
     score: {
-      accuracy: 100,  // Out of 100.
-      accuracyScore: 0,  // Raw number.
-      accuracyInt: 100,  // Out of 100.
+      accuracy: 100, // Out of 100.
+      accuracyScore: 0, // Raw number.
+      accuracyInt: 100, // Out of 100.
       activePanel: false,
       beatsHit: 0,
       beatsMissed: 0,
-      beatsText: '',
+      beatsText: "",
       combo: 0,
-      finalAccuracy: 100,  // Out of 100.
+      finalAccuracy: 100, // Out of 100.
       maxCombo: 0,
-      rank: '',  // Grade (S to F).
-      score: 0
+      rank: "", // Grade (S to F).
+      score: 0,
     },
     search: {
       activePanel: true,
@@ -166,26 +171,30 @@ AFRAME.registerState({
       hasError: false,
       hasNext: false,
       hasPrev: false,
-      query: '',
-      queryText: '',
+      query: "",
+      queryText: "",
       results: [],
-      songNameTexts: '',  // All names in search results merged together.
-      songSubNameTexts: '',  // All sub names in search results merged together.
+      songNameTexts: "", // All names in search results merged together.
+      songSubNameTexts: "", // All sub names in search results merged together.
       // url and urlPage are used to load more results from the API when scrolling down
-      url: '',
+      url: "",
       urlPage: 0,
     },
     searchResultsPage: [],
-    speed: 10
+    speed: 10,
+    stereoSettings: {
+      red: 0.5, // 0.5 = 100% visible in both eyes, 0 = visible in left eye only, 1 = visible in right eye only.
+      blue: 0.5,
+    },
   },
 
   handlers: {
     /**
      * Swap left-handed or right-handed mode.
      */
-    activehandswap: state => {
-      state.activeHand = state.activeHand === 'right' ? 'left' : 'right';
-      localStorage.setItem('activeHand', state.activeHand);
+    activehandswap: (state) => {
+      state.activeHand = state.activeHand === "right" ? "left" : "right";
+      localStorage.setItem("activeHand", state.activeHand);
     },
 
     beathit: (state, payload) => {
@@ -205,50 +214,54 @@ AFRAME.registerState({
       updateScoreAccuracy(state);
     },
 
-    beatmiss: state => {
+    beatmiss: (state) => {
       state.score.beatsMissed++;
       takeDamage(state);
       updateScoreAccuracy(state);
     },
 
-    beatwrong: state => {
+    beatwrong: (state) => {
       state.score.beatsMissed++;
       takeDamage(state);
       updateScoreAccuracy(state);
     },
 
-    beatloaderpreloadfinish: state => {
-      if (state.menuActive) { return; }  // Cancelled.
+    beatloaderpreloadfinish: (state) => {
+      if (state.menuActive) {
+        return;
+      } // Cancelled.
       state.challenge.isBeatsPreloaded = true;
     },
 
     colorschemechange: (state, payload) => {
       state.colorScheme = payload;
       state.colorPrimary = COLORS.schemes[payload].primary;
+      state.colorPrimaryBright = COLORS.schemes[payload].primarybright;
       state.colorSecondary = COLORS.schemes[payload].secondary;
       state.colorSecondaryBright = COLORS.schemes[payload].secondarybright;
       state.colorTertiary = COLORS.schemes[payload].tertiary;
-      localStorage.setItem('colorScheme', payload);
+      localStorage.setItem("colorScheme", payload);
     },
 
     controllerconnected: (state, payload) => {
       state.controllerType = payload.name;
-      state.has6DOFVR = [
-        'oculus-quest-controls',
-        'oculus-touch-controls',
-        'vive-controls',
-        'windows-motion-controls',
-        'generic-tracked-controller-controls'
-      ].indexOf(state.controllerType) !== -1;
+      state.has6DOFVR =
+        [
+          "oculus-quest-controls",
+          "oculus-touch-controls",
+          "vive-controls",
+          "windows-motion-controls",
+          "generic-tracked-controller-controls",
+        ].indexOf(state.controllerType) !== -1;
 
-      state.has3DOFVR = [
-        'oculus-go-controls',
-        'daydream-controls'
-      ].indexOf(state.controllerType) !== -1;
+      state.has3DOFVR =
+        ["oculus-go-controls", "daydream-controls"].indexOf(
+          state.controllerType
+        ) !== -1;
     },
 
-    debugbeatpositioning: state => {
-      state.gameMode = 'classic';
+    debugbeatpositioning: (state) => {
+      state.gameMode = "classic";
       state.introActive = false;
       state.menuActive = false;
     },
@@ -258,7 +271,7 @@ AFRAME.registerState({
      *
      * ?debugstate=gameplay
      */
-    debuggameplay: state => {
+    debuggameplay: (state) => {
       resetScore(state);
 
       // Set challenge. `beat-generator` is listening.
@@ -266,7 +279,7 @@ AFRAME.registerState({
 
       // Reset menu.
       state.menuActive = false;
-      state.menuSelectedChallenge.id = '';
+      state.menuSelectedChallenge.id = "";
 
       state.isSearching = false;
       state.isLoading = false;
@@ -277,7 +290,7 @@ AFRAME.registerState({
      *
      * ?debugstate=gameover
      */
-    debuggameover: state => {
+    debuggameover: (state) => {
       state.isGameOver = true;
       state.menuActive = false;
     },
@@ -287,8 +300,8 @@ AFRAME.registerState({
      *
      * ?debugstate=loading
      */
-    debugloading: state => {
-      DEBUG_CHALLENGE.id = '-1';
+    debugloading: (state) => {
+      DEBUG_CHALLENGE.id = "-1";
       Object.assign(state.menuSelectedChallenge, DEBUG_CHALLENGE);
       Object.assign(state.challenge, DEBUG_CHALLENGE);
       state.menuActive = false;
@@ -300,7 +313,7 @@ AFRAME.registerState({
      *
      * ?debugstate=victory
      */
-    debugvictory: state => {
+    debugvictory: (state) => {
       Object.assign(state.menuSelectedChallenge, DEBUG_CHALLENGE);
       Object.assign(state.challenge, DEBUG_CHALLENGE);
       state.isVictory = true;
@@ -310,7 +323,7 @@ AFRAME.registerState({
       state.score.beatsHit = 125;
       state.score.beatsMissed = 125;
       state.score.maxCombo = 123;
-      state.score.rank = 'A';
+      state.score.rank = "A";
       state.score.score = 9001;
       state.introActive = false;
       computeBeatsText(state);
@@ -319,35 +332,41 @@ AFRAME.registerState({
     difficultyfilter: (state, difficulty) => {
       state.difficultyFilter = difficulty;
       state.difficultyFilterMenuOpen = false;
-      state.menuSelectedChallenge.id = '';
+      state.menuSelectedChallenge.id = "";
     },
 
-    difficultyfiltermenuclose: state => {
+    difficultyfiltermenuclose: (state) => {
       state.difficultyFilterMenuOpen = false;
     },
 
-    difficultyfiltermenuopen: state => {
+    difficultyfiltermenuopen: (state) => {
       state.difficultyFilterMenuOpen = true;
     },
 
-    displayconnected: state => {
+    displayconnected: (state) => {
       state.hasVR = true;
-      if (HAS_LOGGED_VR) { return; }
+      if (HAS_LOGGED_VR) {
+        return;
+      }
       try {
-        if ('getVRDisplays' in navigator) {
-          navigator.getVRDisplays().then(displays => {
-            if (!displays.length) { return; }
+        if ("getVRDisplays" in navigator) {
+          navigator.getVRDisplays().then((displays) => {
+            if (!displays.length) {
+              return;
+            }
             HAS_LOGGED_VR = true;
           });
         }
-      } catch (e) { }
+      } catch (e) {}
     },
 
-    favoritetoggle: state => {
+    favoritetoggle: (state) => {
       const id = state.menuSelectedChallenge.id;
       const challenge = challengeDataStore[id];
 
-      if (!challenge) { return; }
+      if (!challenge) {
+        return;
+      }
 
       if (state.menuSelectedChallenge.isFavorited) {
         // Unfavorite.
@@ -355,24 +374,29 @@ AFRAME.registerState({
         for (let i = 0; i < state.favorites.length; i++) {
           if (state.favorites[i].id === id) {
             state.favorites.splice(i, 1);
-            localStorage.setItem('favorites-v2', JSON.stringify(state.favorites));
+            localStorage.setItem(
+              "favorites-v2",
+              JSON.stringify(state.favorites)
+            );
             return;
           }
         }
       } else {
         // Favorite.
         state.menuSelectedChallenge.isFavorited = true;
-        if (state.favorites.filter(favorite => favorite.id === id).length) { return; }
-        state.favorites.push(challenge)
-        localStorage.setItem('favorites-v2', JSON.stringify(state.favorites));
+        if (state.favorites.filter((favorite) => favorite.id === id).length) {
+          return;
+        }
+        state.favorites.push(challenge);
+        localStorage.setItem("favorites-v2", JSON.stringify(state.favorites));
       }
     },
 
-    gamemenuresume: state => {
+    gamemenuresume: (state) => {
       state.isPaused = false;
     },
 
-    gamemenurestart: state => {
+    gamemenurestart: (state) => {
       resetScore(state);
       state.challenge.isBeatsPreloaded = false;
       state.isGameOver = false;
@@ -382,7 +406,7 @@ AFRAME.registerState({
       state.leaderboardQualified = false;
     },
 
-    gamemenuexit: state => {
+    gamemenuexit: (state) => {
       resetScore(state);
       state.challenge.isBeatsPreloaded = false;
       state.isGameOver = false;
@@ -391,9 +415,10 @@ AFRAME.registerState({
       state.menuActive = true;
       state.menuSelectedChallenge.id = state.challenge.id;
       state.menuSelectedChallenge.difficulty = state.challenge.difficulty;
-      state.menuSelectedChallenge.beatmapCharacteristic = state.challenge.beatmapCharacteristic;
+      state.menuSelectedChallenge.beatmapCharacteristic =
+        state.challenge.beatmapCharacteristic;
       state.menuSelectedChallenge.difficultyId = state.challenge.difficultyId;
-      state.challenge.id = '';
+      state.challenge.id = "";
       state.leaderboardQualified = false;
     },
 
@@ -401,34 +426,34 @@ AFRAME.registerState({
       state.gameMode = mode;
     },
 
-    genreclear: state => {
-      state.genre = '';
-      state.menuSelectedChallenge.id = '';
+    genreclear: (state) => {
+      state.genre = "";
+      state.menuSelectedChallenge.id = "";
     },
 
     genreselect: (state, genre) => {
       state.genre = genre;
       state.genreMenuOpen = false;
-      state.menuSelectedChallenge.id = '';
-      state.playlist = '';
-      state.search.query = '';
+      state.menuSelectedChallenge.id = "";
+      state.playlist = "";
+      state.search.query = "";
     },
 
-    genremenuclose: state => {
+    genremenuclose: (state) => {
       state.genreMenuOpen = false;
     },
 
-    genremenuopen: state => {
+    genremenuopen: (state) => {
       state.genreMenuOpen = true;
     },
 
-    keyboardclose: state => {
+    keyboardclose: (state) => {
       state.isSearching = false;
     },
 
-    keyboardopen: state => {
+    keyboardopen: (state) => {
       state.isSearching = true;
-      state.menuSelectedChallenge.id = '';
+      state.menuSelectedChallenge.id = "";
     },
 
     /**
@@ -437,19 +462,24 @@ AFRAME.registerState({
     leaderboard: (state, payload) => {
       state.leaderboard.length = 0;
       state.leaderboardFetched = true;
-      state.leaderboardNames = '';
-      state.leaderboardScores = '';
+      state.leaderboardNames = "";
+      state.leaderboardScores = "";
       for (let i = 0; i < payload.scores.length; i++) {
         let score = payload.scores[i];
         state.leaderboard.push(score);
-        state.leaderboardNames += `#${i + 1} ${truncate(score.username, 18)} (${Math.round(score.accuracy || 0)}%)\n`;
+        state.leaderboardNames += `#${i + 1} ${truncate(
+          score.username,
+          18
+        )} (${Math.round(score.accuracy || 0)}%)\n`;
         state.leaderboardScores += `${score.score}\n`;
       }
       state.leaderboardLoading = false;
     },
 
-    leaderboardqualify: state => {
-      if (!state.has6DOFVR) { return; }
+    leaderboardqualify: (state) => {
+      if (!state.has6DOFVR) {
+        return;
+      }
       state.leaderboardQualified = true;
     },
 
@@ -459,31 +489,36 @@ AFRAME.registerState({
     leaderboardscoreadded: (state, payload) => {
       // Insert.
       for (let i = 0; i < state.leaderboard.length; i++) {
-        if (payload.scoreData.score >= state.leaderboard[i].score ||
-          i >= state.leaderboard.length - 1) {
+        if (
+          payload.scoreData.score >= state.leaderboard[i].score ||
+          i >= state.leaderboard.length - 1
+        ) {
           state.leaderboard.splice(i, 0, payload.scoreData);
           break;
         }
       }
 
-      state.leaderboardNames = '';
-      state.leaderboardScores = '';
+      state.leaderboardNames = "";
+      state.leaderboardScores = "";
       for (let i = 0; i < state.leaderboard.length; i++) {
         let score = state.leaderboard[i];
-        state.leaderboardNames += `${score.username} (${score.accuracy || 0}%)\n`;
+        state.leaderboardNames += `${score.username} (${
+          score.accuracy || 0
+        }%)\n`;
         state.leaderboardScores += `${score.score}\n`;
       }
     },
 
-    leaderboardsubmit: state => {
+    leaderboardsubmit: (state) => {
       state.leaderboardQualified = false;
     },
 
-    menuback: state => {
+    menuback: (state) => {
       state.difficultyFilterMenuOpen = false;
       state.genreMenuOpen = false;
       state.isSearching = false;
       state.optionsMenuOpen = false;
+      state.stereoSettingsMenuOpen = false;
       state.playlistMenuOpen = false;
     },
 
@@ -493,9 +528,14 @@ AFRAME.registerState({
     menuchallengeselect: (state, id) => {
       // Copy from challenge store populated from search results.
       let challenge = challengeDataStore[id];
-      if (!challenge) { return; }
+      if (!challenge) {
+        return;
+      }
       Object.assign(state.menuSelectedChallenge, challenge);
-      state.menuSelectedChallenge.songName = truncate(challenge.metadata.songName, 24);
+      state.menuSelectedChallenge.songName = truncate(
+        challenge.metadata.songName,
+        24
+      );
 
       // Populate difficulty options.
       state.menuDifficulties.length = 0;
@@ -503,31 +543,29 @@ AFRAME.registerState({
 
       const characteristics = JSON.parse(challenge.metadata.characteristics);
       for (const characteristic of Object.keys(characteristics)) {
-
-        if (['90Degree', '360Degree'].includes(characteristic)) continue;
+        if (["90Degree", "360Degree"].includes(characteristic)) continue;
 
         for (const difficulty of Object.keys(characteristics[characteristic])) {
-
           if (characteristics[characteristic][difficulty] === null) continue;
 
           let difficultyName = difficultyMap[difficulty];
           let renderName = difficultyName;
 
-          if (characteristic !== 'Standard') {
-            renderName = characteristic + '\n' + renderName;
+          if (characteristic !== "Standard") {
+            renderName = characteristic + "\n" + renderName;
           }
           state.menuDifficulties.unshift({
-            'id': characteristic + '-' + difficulty,
-            'filename': /* fileDifficultyMap[ */difficulty/* ] */ + characteristic,
-            'difficultyName': difficultyName,
-            'renderName': renderName,
-            'beatmapCharacteristic': characteristic,
-            'difficulty': difficulty,
-          })
-
+            id: characteristic + "-" + difficulty,
+            filename:
+              /* fileDifficultyMap[ */ difficulty /* ] */ + characteristic,
+            difficultyName: difficultyName,
+            renderName: renderName,
+            beatmapCharacteristic: characteristic,
+            difficulty: difficulty,
+          });
         }
       }
-      
+
       state.menuDifficulties.sort(difficultyComparator);
 
       for (const d of state.menuDifficulties) {
@@ -537,20 +575,23 @@ AFRAME.registerState({
       const selectedDifficulty = state.menuDifficulties[0];
 
       state.menuSelectedChallenge.difficulty = selectedDifficulty.difficulty;
-      state.menuSelectedChallenge.beatmapCharacteristic = selectedDifficulty.beatmapCharacteristic;
+      state.menuSelectedChallenge.beatmapCharacteristic =
+        selectedDifficulty.beatmapCharacteristic;
       state.menuSelectedChallenge.difficultyId = selectedDifficulty.id;
 
       state.menuSelectedChallenge.image = state.menuSelectedChallenge.coverURL;
       updateMenuSongInfo(state, challenge);
 
       // Reset audio if it was able to prefetched by zip-loader before.
-      state.challenge.audio = '';
+      state.challenge.audio = "";
 
       computeMenuSelectedChallengeIndex(state);
       state.isSearching = false;
 
       // Favorited.
-      const isFavorited = !!state.favorites.filter(favorite => favorite.id === id).length;
+      const isFavorited = !!state.favorites.filter(
+        (favorite) => favorite.id === id
+      ).length;
       state.menuSelectedChallenge.isFavorited = isFavorited;
 
       // Clear leaderboard.
@@ -563,11 +604,11 @@ AFRAME.registerState({
       }
     },
 
-    menuchallengeunselect: state => {
-      state.menuSelectedChallenge.id = '';
-      state.menuSelectedChallenge.difficultyId = '';
-      state.menuSelectedChallenge.difficulty = '';
-      state.menuSelectedChallenge.beatmapCharacteristic = '';
+    menuchallengeunselect: (state) => {
+      state.menuSelectedChallenge.id = "";
+      state.menuSelectedChallenge.difficultyId = "";
+      state.menuSelectedChallenge.difficulty = "";
+      state.menuSelectedChallenge.beatmapCharacteristic = "";
       clearLeaderboard(state);
     },
 
@@ -581,27 +622,34 @@ AFRAME.registerState({
       }
       state.menuSelectedChallenge.difficultyId = difficultyId;
       state.menuSelectedChallenge.difficulty = difficulty.difficulty;
-      state.menuSelectedChallenge.beatmapCharacteristic = difficulty.beatmapCharacteristic;
+      state.menuSelectedChallenge.beatmapCharacteristic =
+        difficulty.beatmapCharacteristic;
       updateMenuSongInfo(state, state.menuSelectedChallenge);
 
       clearLeaderboard(state);
       state.leaderboardLoading = true;
     },
 
-    menuopeningend: state => {
+    menuopeningend: (state) => {
       state.isMenuOpening = false;
     },
 
-    minehit: state => {
+    minehit: (state) => {
       takeDamage(state);
     },
 
-    optionsmenuopen: state => {
+    optionsmenuopen: (state) => {
       state.optionsMenuOpen = true;
     },
 
-    pausegame: state => {
-      if (!state.isPlaying) { return; }
+    stereosettingsmenuopen: (state) => {
+      state.stereoSettingsMenuOpen = true;
+    },
+
+    pausegame: (state) => {
+      if (!state.isPlaying) {
+        return;
+      }
       state.isPaused = true;
     },
 
@@ -609,14 +657,24 @@ AFRAME.registerState({
      * Start challenge.
      * Transfer staged challenge to the active challenge.
      */
-    playbuttonclick: state => {
-      if (state.menuSelectedChallenge.id === '') { return; }
-      if (badSongs[state.menuSelectedChallenge.id]) { return; }
+    playbuttonclick: (state) => {
+      if (state.menuSelectedChallenge.id === "") {
+        return;
+      }
+      if (badSongs[state.menuSelectedChallenge.id]) {
+        return;
+      }
 
-      let source = 'frontpage';
-      if (state.playlist) { source = 'playlist'; }
-      if (state.search.query) { source = 'search'; }
-      if (state.genre) { source = 'genre'; }
+      let source = "frontpage";
+      if (state.playlist) {
+        source = "playlist";
+      }
+      if (state.search.query) {
+        source = "search";
+      }
+      if (state.genre) {
+        source = "genre";
+      }
 
       resetScore(state);
 
@@ -625,34 +683,34 @@ AFRAME.registerState({
 
       // Reset menu.
       state.menuActive = false;
-      state.menuSelectedChallenge.id = '';
-      state.menuSelectedChallenge.difficulty = '';
-      state.menuSelectedChallenge.beatmapCharacteristic = '';
+      state.menuSelectedChallenge.id = "";
+      state.menuSelectedChallenge.difficulty = "";
+      state.menuSelectedChallenge.beatmapCharacteristic = "";
 
       state.isSearching = false;
       state.isLoading = true;
-      state.loadingText = 'Loading...'
+      state.loadingText = "Loading...";
     },
 
     playlistclear: (state, playlist) => {
-      state.menuSelectedChallenge.id = '';
-      state.playlist = '';
+      state.menuSelectedChallenge.id = "";
+      state.playlist = "";
     },
 
     playlistselect: (state, playlist) => {
-      state.genre = '';
-      state.menuSelectedChallenge.id = '';
+      state.genre = "";
+      state.menuSelectedChallenge.id = "";
       state.playlist = playlist.id;
       state.playlistTitle = playlist.title;
       state.playlistMenuOpen = false;
-      state.search.query = '';
+      state.search.query = "";
     },
 
-    playlistmenuclose: state => {
+    playlistmenuclose: (state) => {
       state.playlistMenuOpen = false;
     },
 
-    playlistmenuopen: state => {
+    playlistmenuopen: (state) => {
       state.playlistMenuOpen = true;
     },
 
@@ -660,14 +718,19 @@ AFRAME.registerState({
       state.search.hasError = true;
     },
 
-    searchprevpage: state => {
-      if (state.search.page === 0) { return; }
+    searchprevpage: (state) => {
+      if (state.search.page === 0) {
+        return;
+      }
       state.search.page--;
       computeSearchPagination(state);
     },
 
-    searchnextpage: state => {
-      if (state.search.page > Math.floor(state.search.results.length / SEARCH_PER_PAGE)) {
+    searchnextpage: (state) => {
+      if (
+        state.search.page >
+        Math.floor(state.search.results.length / SEARCH_PER_PAGE)
+      ) {
         return;
       }
       state.search.page++;
@@ -677,22 +740,31 @@ AFRAME.registerState({
         return;
       }
 
-      if ((state.search.page + 3) > Math.floor(state.search.results.length / SEARCH_PER_PAGE)) {
-
+      if (
+        state.search.page + 3 >
+        Math.floor(state.search.results.length / SEARCH_PER_PAGE)
+      ) {
         state.search.urlPage = state.search.urlPage + 1;
 
-        fetch(state.search.url.replaceAll('CURRENT_PAGE_INDEX', state.search.urlPage))
-          .then(r => { return r.json() })
-          .then(res => {
-            var hits = (res['docs'] || res['maps']).map(convertBeatmap)
+        fetch(
+          state.search.url.replaceAll(
+            "CURRENT_PAGE_INDEX",
+            state.search.urlPage
+          )
+        )
+          .then((r) => {
+            return r.json();
+          })
+          .then((res) => {
+            var hits = (res["docs"] || res["maps"]).map(convertBeatmap);
 
             state.search.results.push(...hits);
 
             for (i = 0; i < hits.length; i++) {
               let result = hits[i];
               challengeDataStore[result.id] = result;
-            }            
-          })
+            }
+          });
       }
     },
 
@@ -716,20 +788,20 @@ AFRAME.registerState({
         challengeDataStore[result.id] = result;
       }
       computeSearchPagination(state);
-      state.menuSelectedChallenge.id = '';  // Clear any selected on new results.
+      state.menuSelectedChallenge.id = ""; // Clear any selected on new results.
       if (state.isSearching) {
-        state.genre = '';
-        state.playlist = '';
+        state.genre = "";
+        state.playlist = "";
       }
     },
 
-    songcomplete: state => {
+    songcomplete: (state) => {
       // Move back to menu in Ride or Viewer Mode.
-      if (state.gameMode === 'ride' || !state.inVR) {
+      if (state.gameMode === "ride" || !state.inVR) {
         state.challenge.isBeatsPreloaded = false;
         state.isVictory = false;
         state.menuActive = true;
-        state.challenge.id = '';
+        state.challenge.id = "";
         return;
       }
 
@@ -741,28 +813,28 @@ AFRAME.registerState({
 
       const accuracy = parseFloat(state.score.accuracy);
       if (accuracy >= 97) {
-        state.score.rank = 'S';
+        state.score.rank = "S";
       } else if (accuracy >= 90) {
-        state.score.rank = 'A';
+        state.score.rank = "A";
       } else if (accuracy >= 80) {
-        state.score.rank = 'B';
+        state.score.rank = "B";
       } else if (accuracy >= 70) {
-        state.score.rank = 'C';
+        state.score.rank = "C";
       } else if (accuracy >= 60) {
-        state.score.rank = 'D';
+        state.score.rank = "D";
       } else {
-        state.score.rank = 'F';
+        state.score.rank = "F";
       }
 
       computeBeatsText(state);
     },
 
-    songloadcancel: state => {
+    songloadcancel: (state) => {
       state.challenge.isBeatsPreloaded = false;
       // Unset selected challenge.
-      state.challenge.audio = '';
-      state.challenge.id = '';
-      state.challenge.version = '';
+      state.challenge.audio = "";
+      state.challenge.id = "";
+      state.challenge.version = "";
 
       state.isZipFetching = false;
       state.isLoading = false;
@@ -770,79 +842,97 @@ AFRAME.registerState({
       state.menuActive = true;
     },
 
-    songloaderror: state => {
+    songloaderror: (state) => {
       badSongs[state.menuSelectedChallenge.id || state.challenge.id] = true;
 
       state.hasSongLoadError = true;
-      state.loadingText = 'Sorry! There was an error loading this song.\nPlease select another song.';
+      state.loadingText =
+        "Sorry! There was an error loading this song.\nPlease select another song.";
 
-      state.challenge.id = '';
+      state.challenge.id = "";
       state.challenge.isBeatsPreloaded = false;
       state.isSongProcessing = false;
       state.isZipFetching = false;
     },
 
-    songprocessfinish: state => {
+    songprocessfinish: (state) => {
       state.isSongProcessing = false;
-      state.isLoading = false;  // Done loading after final step!
+      state.isLoading = false; // Done loading after final step!
     },
 
-    songprocessstart: state => {
+    songprocessstart: (state) => {
       state.isSongProcessing = true;
-      state.loadingText = 'Wrapping up...';
+      state.loadingText = "Wrapping up...";
     },
 
-    'enter-vr': state => {
+    "enter-vr": (state) => {
       state.inVR = AFRAME.utils.device.checkHeadsetConnected();
     },
 
-    'exit-vr': state => {
+    "exit-vr": (state) => {
       state.inVR = false;
       if (state.isPlaying) {
         state.isPaused = true;
       }
     },
 
-    startgame: state => {
+    startgame: (state) => {
       state.introActive = false;
       state.menuActive = true;
     },
 
-    victoryfake: state => {
-      state.score.accuracy = '74.99';
-      state.score.rank = 'C';
+    stereosettingsupdate(state, payload) {
+      state.stereoSettings[payload.name] = Math.round(payload.value * 30) / 30;
     },
 
-    wallhitstart: state => {
+    victoryfake: (state) => {
+      state.score.accuracy = "74.99";
+      state.score.rank = "C";
+    },
+
+    wallhitstart: (state) => {
       takeDamage(state);
     },
 
     ziploaderend: (state, payload) => {
       state.challenge.audio = payload.audio;
       state.hasSongLoadError = false;
-      state.menuSelectedChallenge.version = '';
+      state.menuSelectedChallenge.version = "";
       state.isZipFetching = false;
     },
 
-    ziploaderstart: state => {
+    ziploaderstart: (state) => {
       state.challenge.isBeatsPreloaded = false;
       state.isZipFetching = true;
-    }
+    },
   },
 
   /**
    * Post-process the state after each action.
    */
-  computeState: state => {
+  computeState: (state) => {
     state.isPlaying =
-      !state.menuActive && !state.isLoading && !state.isPaused && !state.isVictory &&
-      !state.isGameOver && !state.isZipFetching && !state.isSongProcessing &&
-      !!state.challenge.id && !state.introActive;
+      !state.menuActive &&
+      !state.isLoading &&
+      !state.isPaused &&
+      !state.isVictory &&
+      !state.isGameOver &&
+      !state.isZipFetching &&
+      !state.isSongProcessing &&
+      !!state.challenge.id &&
+      !state.introActive;
 
-    const anyMenuOpen = state.menuActive || state.isPaused || state.isVictory ||
-      state.isGameOver || state.isLoading || state.introActive;
-    state.leftRaycasterActive = anyMenuOpen && state.activeHand === 'left' && state.inVR;
-    state.rightRaycasterActive = anyMenuOpen && state.activeHand === 'right' && state.inVR;
+    const anyMenuOpen =
+      state.menuActive ||
+      state.isPaused ||
+      state.isVictory ||
+      state.isGameOver ||
+      state.isLoading ||
+      state.introActive;
+    state.leftRaycasterActive =
+      anyMenuOpen && state.activeHand === "left" && state.inVR;
+    state.rightRaycasterActive =
+      anyMenuOpen && state.activeHand === "right" && state.inVR;
 
     state.mainMenuActive =
       state.menuActive &&
@@ -850,10 +940,11 @@ AFRAME.registerState({
       !state.difficultyFilterMenuOpen &&
       !state.playlistMenuOpen &&
       !state.optionsMenuOpen &&
+      !state.stereoSettingsMenuOpen &&
       !state.isSearching;
 
     state.score.active =
-      state.gameMode !== 'ride' &&
+      state.gameMode !== "ride" &&
       state.inVR &&
       (state.isPlaying || state.isPaused);
   }
@@ -864,22 +955,32 @@ function computeSearchPagination(state) {
   state.search.hasPrev = state.search.page > 0;
   state.search.hasNext = state.search.page < numPages - 1;
 
-  state.search.songNameTexts = '';
-  state.search.songSubNameTexts = '';
+  state.search.songNameTexts = "";
+  state.search.songSubNameTexts = "";
 
   state.searchResultsPage.length = 0;
   state.searchResultsPage.__dirty = true;
-  for (let i = state.search.page * SEARCH_PER_PAGE;
-    i < state.search.page * SEARCH_PER_PAGE + SEARCH_PER_PAGE; i++) {
+  for (
+    let i = state.search.page * SEARCH_PER_PAGE;
+    i < state.search.page * SEARCH_PER_PAGE + SEARCH_PER_PAGE;
+    i++
+  ) {
     const result = state.search.results[i];
-    if (!result) { break; }
+    if (!result) {
+      break;
+    }
     state.searchResultsPage.push(result);
 
     state.search.songNameTexts +=
-      truncate(result.metadata.songName, SONG_NAME_TRUNCATE).toUpperCase() + '\n';
+      truncate(result.metadata.songName, SONG_NAME_TRUNCATE).toUpperCase() +
+      "\n";
     state.search.songSubNameTexts +=
-      truncate((result.metadata.songSubName || result.metadata.songAuthorName || 'Unknown Artist'),
-        SONG_SUB_NAME_RESULT_TRUNCATE) + '\n';
+      truncate(
+        result.metadata.songSubName ||
+          result.metadata.songAuthorName ||
+          "Unknown Artist",
+        SONG_SUB_NAME_RESULT_TRUNCATE
+      ) + "\n";
   }
 
   for (let i = 0; i < state.searchResultsPage.length; i++) {
@@ -890,30 +991,42 @@ function computeSearchPagination(state) {
 }
 
 function truncate(str, length) {
-  if (!str) { return ''; }
+  if (!str) {
+    return "";
+  }
   if (str.length >= length) {
-    return str.substring(0, length - 3) + '...';
+    return str.substring(0, length - 3) + "...";
   }
   return str;
 }
 
-const DIFFICULTIES = ['easy', 'normal', 'hard', 'expert', 'expertPlus'];
-const CHARACTERISTICS = ['Standard'];
+const DIFFICULTIES = ["easy", "normal", "hard", "expert", "expertPlus"];
+const CHARACTERISTICS = ["Standard"];
 function difficultyComparator(a, b) {
   const aIndex = DIFFICULTIES.indexOf(a.difficulty);
   const bIndex = DIFFICULTIES.indexOf(b.difficulty);
-  if (aIndex < bIndex) { return -1; }
-  if (aIndex > bIndex) { return 1; }
+  if (aIndex < bIndex) {
+    return -1;
+  }
+  if (aIndex > bIndex) {
+    return 1;
+  }
 
   const aIndex2 = CHARACTERISTICS.indexOf(a.beatmapCharacteristic);
   const bIndex2 = CHARACTERISTICS.indexOf(b.beatmapCharacteristic);
-  if (aIndex2 > bIndex2) { return -1; }
-  if (aIndex2 < bIndex2) { return 1; }
+  if (aIndex2 > bIndex2) {
+    return -1;
+  }
+  if (aIndex2 < bIndex2) {
+    return 1;
+  }
   return 0;
 }
 
 function takeDamage(state) {
-  if (!state.isPlaying || !state.inVR) { return; }
+  if (!state.isPlaying || !state.inVR) {
+    return;
+  }
   state.score.combo = 0;
   // No damage for now.
   // state.damage++;
@@ -955,33 +1068,46 @@ function formatSongLength(songLength) {
   songLength /= 60;
   const minutes = `${Math.floor(songLength)}`;
   var seconds = Math.round((songLength - minutes) * 60);
-  if (seconds < 10) seconds = '0' + seconds;
+  if (seconds < 10) seconds = "0" + seconds;
   return `${minutes}:${seconds}`;
 }
 
 function computeBeatsText(state) {
-  state.score.beatsText =
-    `${state.score.beatsHit} / ${state.score.beatsMissed + state.score.beatsHit} BEATS`;
+  state.score.beatsText = `${state.score.beatsHit} / ${
+    state.score.beatsMissed + state.score.beatsHit
+  } BEATS`;
 }
 
 function clearLeaderboard(state) {
   state.leaderboard.length = 0;
   state.leaderboard.__dirty = true;
-  state.leaderboardNames = '';
-  state.leaderboardScores = '';
+  state.leaderboardNames = "";
+  state.leaderboardScores = "";
   state.leaderboardFetched = false;
 }
 
 function updateMenuSongInfo(state, challenge) {
-  let info = JSON.parse(challenge.metadata.characteristics)[state.menuSelectedChallenge.beatmapCharacteristic][state.menuSelectedChallenge.difficulty];
+  let info = JSON.parse(challenge.metadata.characteristics)[
+    state.menuSelectedChallenge.beatmapCharacteristic
+  ][state.menuSelectedChallenge.difficulty];
 
-  state.menuSelectedChallenge.songInfoText = `Mapped by ${truncate(challenge.metadata.levelAuthorName, SONG_SUB_NAME_DETAIL_TRUNCATE)}\n${challenge.genre && challenge.genre !== 'Uncategorized' ? challenge.genre + '\n' : ''}${formatSongLength(challenge.metadata.duration)} / ${info.notes} notes\n${info.bombs} bombs | ${info.obstacles} obstacles\nNJS: ${info.njs}`;
+  state.menuSelectedChallenge.songInfoText = `Mapped by ${truncate(
+    challenge.metadata.levelAuthorName,
+    SONG_SUB_NAME_DETAIL_TRUNCATE
+  )}\n${
+    challenge.genre && challenge.genre !== "Uncategorized"
+      ? challenge.genre + "\n"
+      : ""
+  }${formatSongLength(challenge.metadata.duration)} / ${info.notes} notes\n${
+    info.bombs
+  } bombs | ${info.obstacles} obstacles\nNJS: ${info.njs}`;
 }
 
 function updateScoreAccuracy(state) {
   // Update live accuracy.
   const currentNumBeats = state.score.beatsHit + state.score.beatsMissed;
-  state.score.accuracy = (state.score.accuracyScore / (currentNumBeats * 100)) * 100;
+  state.score.accuracy =
+    (state.score.accuracyScore / (currentNumBeats * 100)) * 100;
   state.score.accuracy = state.score.accuracy.toFixed(2);
   state.score.accuracyInt = parseInt(state.score.accuracy);
 }

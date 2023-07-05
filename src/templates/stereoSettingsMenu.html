@@ -1,0 +1,43 @@
+<a-entity
+  id="stereoSettingsMenu"
+  position="0 0.5 0.01"
+  render-order="menutext"
+  bind__visible="stereoSettingsMenuOpen"
+>
+  <a-entity
+    id="stereoSettingsTitle"
+    mixin="font"
+    text="align: center; value: STEREO SETTINGS; width: 2.5"
+  ></a-entity>
+
+  <a-entity
+    position="0 -0.1 0.00"
+    mixin="font"
+    text="align: center; value: Drag the sliders to adjust the visibility of the beats.; width: 2.5; wrapCount: 100"
+  ></a-entity>
+
+  <a-entity
+    stereo-preview
+    position="0 -0.25 0.00"
+    bind__stereo-preview="stereoRed: stereoSettings.red; stereoBlue: stereoSettings.blue; red: colorPrimary; blue: colorSecondary"
+  ></a-entity>
+
+  <a-entity id="stereoSettingsContainer" position="0 -0.25 0">
+    <a-entity
+      id="stereoSettings"
+      position="0 -0.42 0.00"
+      layout="type: box; columns: 1; margin: 0.25"
+    >
+      <a-entity
+        percentage-slider="name: red"
+        proxy-event="event: update; to: a-scene; as: stereosettingsupdate"
+        bind__percentage-slider="value: stereoSettings.red; handleBarColor: colorPrimaryBright; handleColor: colorPrimary; active: stereoSettingsMenuOpen"
+      ></a-entity>
+      <a-entity
+        percentage-slider="name: blue"
+        proxy-event="event: update; to: a-scene; as: stereosettingsupdate"
+        bind__percentage-slider="value: stereoSettings.blue; handleBarColor: colorSecondaryBright; handleColor: colorSecondary; active: stereoSettingsMenuOpen"
+      ></a-entity>
+    </a-entity>
+  </a-entity>
+</a-entity>

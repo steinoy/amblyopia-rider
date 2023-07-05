@@ -1,9 +1,9 @@
 let stereoBeatMaterials;
 
 AFRAME.registerComponent("stereo-beat", {
-  settings: {
-    red: 0.1,
-    blue: 0.9,
+  schema: {
+    red: { type: "number", default: 0.5 },
+    blue: { type: "number", default: 0.5 },
   },
 
   init() {
@@ -29,6 +29,10 @@ AFRAME.registerComponent("stereo-beat", {
 
       if (!stereoBeatMaterials) {
         this.makeMaterials();
+        
+        this.update = () => {
+          this.updateMaterials();
+        }
       }
 
       this.leftMesh.material =
@@ -60,12 +64,12 @@ AFRAME.registerComponent("stereo-beat", {
 
   updateMaterials() {
     stereoBeatMaterials.left.red.opacity =
-      this.settings.red <= 0.5 ? 1 : 1 - (this.settings.red - 0.5) * 2;
+      this.data.red <= 0.5 ? 1 : 1 - (this.data.red - 0.5) * 2;
     stereoBeatMaterials.left.blue.opacity =
-      this.settings.blue <= 0.5 ? 1 : 1 - (this.settings.blue - 0.5) * 2;
+      this.data.blue <= 0.5 ? 1 : 1 - (this.data.blue - 0.5) * 2;
     stereoBeatMaterials.right.red.opacity =
-      this.settings.red <= 0.5 ? this.settings.red * 2 : 1;
+      this.data.red <= 0.5 ? this.data.red * 2 : 1;
     stereoBeatMaterials.right.blue.opacity =
-      this.settings.blue <= 0.5 ? this.settings.blue * 2 : 1;
+      this.data.blue <= 0.5 ? this.data.blue * 2 : 1;
   },
 });

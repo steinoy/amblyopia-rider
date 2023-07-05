@@ -81,7 +81,7 @@ COLORS.schemes = {
     name: 'Mint Choco',
     off: '#111',
     primary: '#34eb89',
-    primarYBRIGht: '#40fb95',
+    primarybright: '#40fb95',
     secondary: '#34ebd8',
     secondarybright: '#40fbeA',
     tertiary: '#eb3434'
@@ -91,7 +91,7 @@ COLORS.schemes = {
     name: 'Cheetah SoL',
     off: '#111',
     primary: '#c27727',
-    primarYBright: '#e68319',
+    primarybright: '#e68319',
     secondary: '#635c54',
     secondarybright: '#8a857f',
     tertiary: '#ebebeb'
