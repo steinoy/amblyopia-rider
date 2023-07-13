@@ -39,7 +39,7 @@ const CUT_DIRECTION_VECTORS = {
   downright: new THREE.Vector3(1, -1, 0).normalize()
 };
 
-const MODELS = {
+export const MODELS = {
   arrowblue: 'blueBeatObjTemplate',
   arrowred: 'redBeatObjTemplate',
   dotblue: 'dotBlueObjTemplate',
@@ -423,17 +423,17 @@ AFRAME.registerComponent('beat', {
 
     setObjModelFromTemplate(
       blockEl,
-      MODELS[type !== 'mine' ? `${type}${this.data.color}` : type]);
-
-    blockEl.setAttribute('materials', 'name', 'beat');
-    const mesh = blockEl.getObject3D('mesh');
-    mesh.geometry.computeBoundingBox();
-
-    this.bbox = mesh.geometry.boundingBox;
-
-    if (this.data.type === 'mine') {
-      this.bbox.expandByScalar(-0.25);
-    }
+      MODELS[type !== 'mine' ? `${type}${this.data.color}` : type], () => {
+        blockEl.setAttribute('materials', 'name', 'beat');
+        const mesh = blockEl.getObject3D('mesh');
+        mesh.geometry.computeBoundingBox();
+    
+        this.bbox = mesh.geometry.boundingBox;
+    
+        if (this.data.type === 'mine') {
+          this.bbox.expandByScalar(-0.25);
+        }
+      });
   },
 
   wrongHit: function () {
@@ -636,7 +636,7 @@ AFRAME.registerComponent('beat', {
  * Load OBJ from already parsed and loaded OBJ template.
  */
 const geometries = {};
-function setObjModelFromTemplate (el, templateId) {
+export function setObjModelFromTemplate (el, templateId, cb) {
   // Load into cache.
   if (!geometries[templateId]) {
     const templateEl = document.getElementById(templateId);
@@ -647,7 +647,7 @@ function setObjModelFromTemplate (el, templateId) {
       // Wait.
       templateEl.addEventListener('object3dset', evt => {
         if (evt.detail.type !== 'mesh') { return; }
-        setObjModelFromTemplate(el, templateId);
+        setObjModelFromTemplate(el, templateId, cb);
       }, ONCE);
       return;
     }
@@ -658,6 +658,8 @@ function setObjModelFromTemplate (el, templateId) {
     if (!el.getObject3D('mesh')) { el.setObject3D('mesh', new THREE.Mesh()); }
     el.getObject3D('mesh').geometry = geometries[templateId];
   }
+  
+  cb();
 }
 
 function getElasticEasing (a, p) {

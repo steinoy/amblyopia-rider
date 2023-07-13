@@ -71,6 +71,7 @@
     animation__opacity="property: components.material.material.uniforms.opacity.value; from: 0; to: 1; dur: 1000; delay: 300; startEvents: startgame"
     animation__midsectionshow="property: components.material.material.uniforms.midSection.value; from: 0; to: 1; dur: 160; startEvents: showdifficultysection; easing: easeOutCubic"
     animation__midsectionhide="property: components.material.material.uniforms.midSection.value; from: 1: to: 0; dur: 160; startEvents: hidedifficultysection; easing: easeOutCubic"
+    bind__visible="!stereoSettingsMenuOpen"
     render-order="menu" position="0 0 -0.005"></a-entity>
 
   <a-entity id="mainMenu" bind__visible="mainMenuActive && !isMenuOpening || isSearching">

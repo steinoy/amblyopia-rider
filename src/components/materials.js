@@ -239,6 +239,33 @@ AFRAME.registerSystem('materials', {
     });
 
     this.beat = new THREE.MeshLambertMaterial({map: this.beatsTexture, transparent: true});
+    
+    this.stereoBeat = {
+      left: {
+        red: this.beat.clone(),
+        blue: this.beat.clone(),
+      },
+      right: {
+        red: this.beat.clone(),
+        blue: this.beat.clone(),
+      },
+    };
+
+    this.el.sceneEl.addEventListener('stateupdate', (evt) => {
+      if(evt.detail.action === 'stereosettingsupdate') {
+        let colors = evt.detail.state.stereoSettings;
+
+        this.stereoBeat.left.red.opacity =
+          colors.red <= 0.5 ? 1 : 1 - (colors.red - 0.5) * 2;
+        this.stereoBeat.left.blue.opacity =
+          colors.blue <= 0.5 ? 1 : 1 - (colors.blue - 0.5) * 2;
+        this.stereoBeat.right.red.opacity =
+          colors.red <= 0.5 ? colors.red * 2 : 1;
+        this.stereoBeat.right.blue.opacity =
+          colors.blue <= 0.5 ? colors.blue * 2 : 1;
+      }
+    });
+
     this.blueBeatPieces = new THREE.MeshLambertMaterial({
       map: this.beatsTexture,
       color: scheme.secondary,

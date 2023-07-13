@@ -1,11 +1,4 @@
-let stereoBeatMaterials;
-
 AFRAME.registerComponent("stereo-beat", {
-  schema: {
-    red: { type: "number", default: 0.5 },
-    blue: { type: "number", default: 0.5 },
-  },
-
   init() {
     this.el.addEventListener("loaded", () => {
       // replace the original mesh with new ones, one for each eye
@@ -27,49 +20,17 @@ AFRAME.registerComponent("stereo-beat", {
       // show the right mesh to the right camera only (layer 2)
       this.rightMesh.layers.set(2);
 
-      if (!stereoBeatMaterials) {
-        this.makeMaterials();
-        
-        this.update = () => {
-          this.updateMaterials();
-        }
-      }
+      let materials = this.el.sceneEl.systems.materials.stereoBeat;
 
       this.leftMesh.material =
         this.el.getAttribute("beat").color == "red"
-          ? stereoBeatMaterials.left.red
-          : stereoBeatMaterials.left.blue;
+          ? materials.left.red
+          : materials.left.blue;
 
       this.rightMesh.material =
         this.el.getAttribute("beat").color == "red"
-          ? stereoBeatMaterials.right.red
-          : stereoBeatMaterials.right.blue;
+          ? materials.right.red
+          : materials.right.blue;
     });
-  },
-
-  makeMaterials() {
-    stereoBeatMaterials = {
-      left: {
-        red: this.el.sceneEl.systems.materials.beat.clone(),
-        blue: this.el.sceneEl.systems.materials.beat.clone(),
-      },
-      right: {
-        red: this.el.sceneEl.systems.materials.beat.clone(),
-        blue: this.el.sceneEl.systems.materials.beat.clone(),
-      },
-    };
-
-    this.updateMaterials();
-  },
-
-  updateMaterials() {
-    stereoBeatMaterials.left.red.opacity =
-      this.data.red <= 0.5 ? 1 : 1 - (this.data.red - 0.5) * 2;
-    stereoBeatMaterials.left.blue.opacity =
-      this.data.blue <= 0.5 ? 1 : 1 - (this.data.blue - 0.5) * 2;
-    stereoBeatMaterials.right.red.opacity =
-      this.data.red <= 0.5 ? this.data.red * 2 : 1;
-    stereoBeatMaterials.right.blue.opacity =
-      this.data.blue <= 0.5 ? this.data.blue * 2 : 1;
   },
 });

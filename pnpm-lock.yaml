@@ -158,15 +158,9 @@ dependencies:
   super-nunjucks-loader:
     specifier: ^2.0.0
     version: 2.0.0
-  uglify-es:
-    specifier: git://github.com/mishoo/UglifyJS2.git#harmony
-    version: github.com/mishoo/UglifyJS2/569757d14dbbe04f66af65d7bf0600b3a75efd96
-  uglify-js:
-    specifier: git://github.com/mishoo/UglifyJS2#harmony
-    version: github.com/mishoo/UglifyJS2/569757d14dbbe04f66af65d7bf0600b3a75efd96
   uglifyjs-webpack-plugin:
-    specifier: 0.4.6
-    version: 0.4.6(webpack@4.46.0)
+    specifier: 2.2.0
+    version: 2.2.0(webpack@4.46.0)
   unzip-js:
     specifier: ^1.0.0
     version: 1.0.0
@@ -2397,15 +2391,6 @@ packages:
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
 
-  /align-text@0.1.4:
-    resolution: {integrity: sha512-GrTZLRpmp6wIC2ztrWW9MjjTgSKccffgFagbNDOX95/dcjEcYZibYTeaOntySQLcdw1ztBoFkviiUvTMbb9MYg==}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      kind-of: 3.2.2
-      longest: 1.0.1
-      repeat-string: 1.6.1
-    dev: false
-
   /alphanum-sort@1.0.2:
     resolution: {integrity: sha512-0FcBfdcmaumGPQ0qPn7Q5qTgz/ooXgIyp1rf8ik5bGX8mpE2YHjC0P/eyQvxu1GURYQgq9ozf2mteQ5ZD9YiyQ==}
     dev: false
@@ -3515,11 +3500,6 @@ packages:
       camelcase: 2.1.1
       map-obj: 1.0.1
 
-  /camelcase@1.2.1:
-    resolution: {integrity: sha512-wzLkDa4K/mzI1OSITC+DUyjgIl/ETNHE9QvYgy6J6Jvqyyz4C0Xfd+lQhb19sX2jMpZV4IssUn0VDVmglV+s4g==}
-    engines: {node: '>=0.10.0'}
-    dev: false
-
   /camelcase@2.1.1:
     resolution: {integrity: sha512-DLIsRzJVBQu72meAKPkWQOLcujdXT32hwdfnkI1frSiSRMK1MofjKHf+MEx0SB6fjEFXL8fBDv1dKymBlOp4Qw==}
     engines: {node: '>=0.10.0'}
@@ -3555,14 +3535,6 @@ packages:
 
   /caseless@0.12.0:
     resolution: {integrity: sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==}
-    dev: false
-
-  /center-align@0.1.3:
-    resolution: {integrity: sha512-Baz3aNe2gd2LP2qk5U+sDk/m4oSuwSDcBfayTCTBoWpfIGO5XFxPmjILQII4NGiZjD6DoDI6kf7gKaxkf7s3VQ==}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      align-text: 0.1.4
-      lazy-cache: 1.0.4
     dev: false
 
   /chai-shallow-deep-equal@1.4.6(chai@3.5.0):
@@ -3746,14 +3718,6 @@ packages:
   /cli-width@2.2.1:
     resolution: {integrity: sha512-GRMWDxpOB6Dgk2E5Uo+3eEBvtOOlimMmpbFiKuLFnQzYDavtLFY3K5ona41jgN/WdRZtG7utuVSVTL4HbZHGkw==}
 
-  /cliui@2.1.0:
-    resolution: {integrity: sha512-GIOYRizG+TGoc7Wgc1LiOTLare95R3mzKgoln+Q/lE4ceiYH19gUpl0l0Ffq4lJDEf3FxujMe6IBfOCs7pfqNA==}
-    dependencies:
-      center-align: 0.1.3
-      right-align: 0.1.3
-      wordwrap: 0.0.2
-    dev: false
-
   /cliui@5.0.0:
     resolution: {integrity: sha512-PYeGSEmmHM6zvoef2w8TPzlrnNpXIjTipYK780YswmIP9vjxmd6Y2a3CB2Ks6/AU8NHjZugXvo8w3oWM2qnwXA==}
     dependencies:
@@ -3871,10 +3835,6 @@ packages:
   /commander@0.6.1:
     resolution: {integrity: sha512-0fLycpl1UMTGX257hRsu/arL/cUbcvQM4zMKwvLvzXtfdezIV4yotPS2dYtknF+NmEfWSoCEF6+hj9XLm/6hEw==}
     engines: {node: '>= 0.4.x'}
-    dev: false
-
-  /commander@2.14.1:
-    resolution: {integrity: sha512-+YR16o3rK53SmWHU3rEM3tPAh2rwb1yPcQX5irVn7mb0gXbwuCCrnkbV5+PBfETdfg1vui07nM6PCG1zndcjQw==}
     dev: false
 
   /commander@2.2.0:
@@ -7449,11 +7409,6 @@ packages:
       xtend: 4.0.2
     dev: false
 
-  /lazy-cache@1.0.4:
-    resolution: {integrity: sha512-RE2g0b5VGZsOCFOCgP7omTRYFqydmZkBwl5oNnQ1lDYC57uyO9KqNnNVxT7COSHTxrRCWVcAVOcbjk+tvh/rgQ==}
-    engines: {node: '>=0.10.0'}
-    dev: false
-
   /levn@0.2.5:
     resolution: {integrity: sha512-mvp+NO++YH0B+e8cC/SvJxk6k5Z9Ngd3iXuz7tmT8vZCyQZj/5SI1GkFOiZGGPkm5wWGI9SUrqiAfPq7BJH+0w==}
     engines: {node: '>= 0.8.0'}
@@ -7597,11 +7552,6 @@ packages:
 
   /long@5.2.3:
     resolution: {integrity: sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==}
-    dev: false
-
-  /longest@1.0.1:
-    resolution: {integrity: sha512-k+yt5n3l48JU4k8ftnKG6V7u32wyH2NfKzeMto9F/QRE0amxy/LayxwlvjjkZEIzqR+19IrtFO8p5kB9QaYUFg==}
-    engines: {node: '>=0.10.0'}
     dev: false
 
   /loose-envify@1.4.0:
@@ -9600,13 +9550,6 @@ packages:
     resolution: {integrity: sha512-9LkiTwjUh6rT555DtE9rTX+BKByPfrMzEAtnlEtdEwr3Nkffwiihqe2bWADg+OQRjt9gl6ICdmB/ZFDCGAtSow==}
     engines: {node: '>= 4'}
 
-  /right-align@0.1.3:
-    resolution: {integrity: sha512-yqINtL/G7vs2v+dFIZmFUDbnVyFUJFKd6gK22Kgo6R4jfJGFtisKyncWDDULgjfqf4ASQuIQyjJ7XZ+3aWpsAg==}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      align-text: 0.1.4
-    dev: false
-
   /rimraf@2.6.3:
     resolution: {integrity: sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==}
     hasBin: true
@@ -10983,34 +10926,28 @@ packages:
     resolution: {integrity: sha512-ueeb9YybpjhivjbHP2LdFDAjbS948fGEPj+ACAMs4xCMmh72OCOMQWBQKlaN4ZNQ04yfLSDLSx1tGRIoWimObQ==}
     dev: false
 
-  /uglify-js@2.8.29:
-    resolution: {integrity: sha512-qLq/4y2pjcU3vhlhseXGGJ7VbFO4pBANu0kwl8VCa9KEI0V8VfZIx2Fy3w01iSTA/pGwKZSmu/+I4etLNDdt5w==}
+  /uglify-js@3.17.4:
+    resolution: {integrity: sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==}
     engines: {node: '>=0.8.0'}
     hasBin: true
-    dependencies:
-      source-map: 0.5.7
-      yargs: 3.10.0
-    optionalDependencies:
-      uglify-to-browserify: 1.0.2
     dev: false
 
-  /uglify-to-browserify@1.0.2:
-    resolution: {integrity: sha512-vb2s1lYx2xBtUgy+ta+b2J/GLVUR+wmpINwHePmPRhOsIVCG2wDzKJ0n14GslH1BifsqVzSOwQhRaCAsZ/nI4Q==}
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /uglifyjs-webpack-plugin@0.4.6(webpack@4.46.0):
-    resolution: {integrity: sha512-TNM20HMW67kxHRNCZdvLyiwE1ST6WyY5Ae+TG55V81NpvNwJ9+V4/po4LHA1R9afV/WrqzfedG2UJCk2+swirw==}
-    engines: {node: '>=4.3.0 <5.0.0 || >=5.10'}
-    requiresBuild: true
+  /uglifyjs-webpack-plugin@2.2.0(webpack@4.46.0):
+    resolution: {integrity: sha512-mHSkufBmBuJ+KHQhv5H0MXijtsoA1lynJt1lXOaotja8/I0pR4L9oGaPIZw+bQBOFittXZg9OC1sXSGO9D9ZYg==}
+    engines: {node: '>= 6.9.0'}
     peerDependencies:
-      webpack: ^1.9 || ^2 || ^2.1.0-beta || ^2.2.0-rc || ^3.0.0
+      webpack: ^4.0.0
     dependencies:
-      source-map: 0.5.7
-      uglify-js: 2.8.29
+      cacache: 12.0.4
+      find-cache-dir: 2.1.0
+      is-wsl: 1.1.0
+      schema-utils: 1.0.0
+      serialize-javascript: 1.9.1
+      source-map: 0.6.1
+      uglify-js: 3.17.4
       webpack: 4.46.0(webpack-cli@3.3.12)
-      webpack-sources: 1.0.1
+      webpack-sources: 1.4.3
+      worker-farm: 1.7.0
     dev: false
 
   /ultron@1.0.2:
@@ -11537,22 +11474,12 @@ packages:
     dependencies:
       isexe: 2.0.0
 
-  /window-size@0.1.0:
-    resolution: {integrity: sha512-1pTPQDKTdd61ozlKGNCjhNRd+KPmgLSGa3mZTHoOliaGcESD8G1PXhh7c1fgiPjVbNVfgy2Faw4BI8/m0cC8Mg==}
-    engines: {node: '>= 0.8.0'}
-    dev: false
-
   /word-wrap@1.2.3:
     resolution: {integrity: sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==}
     engines: {node: '>=0.10.0'}
 
   /word-wrapper@1.0.7:
     resolution: {integrity: sha512-VOPBFCm9b6FyYKQYfn9AVn2dQvdR/YOVFV6IBRA1TBMJWKffvhEX1af6FMGrttILs2Q9ikCRhLqkbY2weW6dOQ==}
-    dev: false
-
-  /wordwrap@0.0.2:
-    resolution: {integrity: sha512-xSBsCeh+g+dinoBv3GAOWM4LcVVO68wLXRanibtBSdUvkGWQRGeE9P7IwU9EmDDi4jA6L44lz15CGMwdw9N5+Q==}
-    engines: {node: '>=0.4.0'}
     dev: false
 
   /wordwrap@0.0.3:
@@ -11745,15 +11672,6 @@ packages:
       yargs-parser: 21.1.1
     dev: false
 
-  /yargs@3.10.0:
-    resolution: {integrity: sha512-QFzUah88GAGy9lyDKGBqZdkYApt63rCXYBGYnEP4xDJPXNqXXnBDACnbrXnViV6jRSqAePwrATi2i8mfYm4L1A==}
-    dependencies:
-      camelcase: 1.2.1
-      cliui: 2.1.0
-      decamelize: 1.2.0
-      window-size: 0.1.0
-    dev: false
-
   /yeast@0.1.2:
     resolution: {integrity: sha512-8HFIh676uyGYP6wP13R/j6OJ/1HwJ46snpvzE7aHAN3Ryqh2yX6Xox2B4CUmTwwOIzlG3Bs7ocsP5dZH/R1Qbg==}
     dev: false
@@ -11784,17 +11702,6 @@ packages:
     version: 1.1.0
     dependencies:
       flatten-vertex-data: 1.0.2
-    dev: false
-
-  github.com/mishoo/UglifyJS2/569757d14dbbe04f66af65d7bf0600b3a75efd96:
-    resolution: {commit: 569757d14dbbe04f66af65d7bf0600b3a75efd96, repo: git+ssh://git@github.com/mishoo/UglifyJS2.git, type: git}
-    name: uglify-es
-    version: 3.3.10
-    engines: {node: '>=0.8.0'}
-    hasBin: true
-    dependencies:
-      commander: 2.14.1
-      source-map: 0.6.1
     dev: false
 
   github.com/ngokevin/debug/ef5f8e66d49ce8bc64c6f282c15f8b7164409e3a:
