@@ -21,7 +21,7 @@ AFRAME.registerComponent("stereo-beat-preview", {
         rightMesh.material = materials.right[this.data.color];
         rightMesh.layers.set(2);
         
-        leftMesh.position.set(0.1, 0, 0);
+        leftMesh.position.set(0.15, 0.05, 0);
 
         this.el.object3D.add(rightMesh);
       }
