@@ -16,6 +16,7 @@ AFRAME.registerComponent("stereo-beat", {
       // cameras can only see objects that share at least one common layer with the camera
       // show the left mesh to the left camera only (layer 1)
       this.leftMesh.layers.set(1);
+      this.leftMesh.position.set(0.2, 0.05, 0);
 
       // show the right mesh to the right camera only (layer 2)
       this.rightMesh.layers.set(2);
