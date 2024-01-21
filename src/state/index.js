@@ -882,7 +882,7 @@ AFRAME.registerState({
     },
 
     stereosettingsupdate(state, payload) {
-      state.stereoSettings[payload.name] = Math.round(payload.value * 30) / 30;
+      state.stereoSettings[payload.name] = Math.round(payload.value * 50) / 50;
     },
 
     victoryfake: (state) => {

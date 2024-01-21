@@ -11,10 +11,9 @@ AFRAME.registerComponent('percentage-slider', {
         this.globalState = this.el.sceneEl.systems.state;
         this.sliderWidth = 1;
 
-        this.el.setAttribute('geometry', `primitive: box; width: ${this.sliderWidth}; height: 0.1; depth: 0.03;`);
+        this.el.setAttribute('geometry', `primitive: box; width: ${this.sliderWidth}; height: 0.15; depth: 0.00001;`);
         this.el.setAttribute('material', `shader: flat; opacity: 0;`);
         this.el.setAttribute('position', `0 0 0`);
-        
 
         this.sliderBar = document.createElement("a-entity");
         this.sliderBar.setAttribute('geometry', `primitive: box; width: ${this.sliderWidth}; height: 0.01; depth: 0.03;`);
@@ -25,8 +24,7 @@ AFRAME.registerComponent('percentage-slider', {
         this.handle = document.createElement("a-entity");
         this.handleStartPos = this.sliderWidth * -0.5;
         this.handle.setAttribute('id', 'slider-handle');
-        this.handle.setAttribute('geometry', `primitive: cylinder; radius: 0.075; height: 0.04;`);
-        this.handle.setAttribute('rotation', '90 0 0');
+        this.handle.setAttribute('geometry', `primitive: sphere; radius: 0.08;`);
         this.handle.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${this.data.handleColor};`);
         this.handle.setAttribute('position', `${this.handleStartPos + this.sliderWidth * this.data.value} 0 0`);
         this.handle.setAttribute('mixin', 'clickSoundUI hoverSoundUI');

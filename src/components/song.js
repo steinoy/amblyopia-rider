@@ -1,7 +1,7 @@
 const utils = require('../utils');
 
 const GAME_OVER_LENGTH = 3.5;
-const ONCE = {once: true};
+const ONCE = { once: true };
 const BASE_VOLUME = 0.5;
 
 let skipDebug = AFRAME.utils.getUrlParameter('skip');
@@ -26,18 +26,18 @@ if (!!skipDebug) {
  */
 AFRAME.registerComponent('song', {
   schema: {
-    audio: {type: 'string'}, // Blob URL.
-    analyserEl: {type: 'selector', default: '#audioAnalyser'},
-    challengeId: {default: ''},
-    isBeatsPreloaded: {default: false},
-    isGameOver: {default: false},
-    isLoading: {default: false},
-    isPlaying: {default: false},
-    isVictory: {default: false}
+    audio: { type: 'string' }, // Blob URL.
+    analyserEl: { type: 'selector', default: '#audioAnalyser' },
+    challengeId: { default: '' },
+    isBeatsPreloaded: { default: false },
+    isGameOver: { default: false },
+    isLoading: { default: false },
+    isPlaying: { default: false },
+    isVictory: { default: false }
   },
 
   init: function () {
-    this.analyserSetter = {buffer: true};
+    this.analyserSetter = { buffer: true };
     this.audioAnalyser = this.data.analyserEl.components.audioanalyser;
     this.context = this.audioAnalyser.context;
     this.isAudioPlaying = false;
@@ -144,8 +144,13 @@ AFRAME.registerComponent('song', {
         this.source = evt.detail;
         resolve(this.source);
       }, ONCE);
+
+      let needsRefresh = this.analyserSetter.src = this.data.audio;
+
       this.analyserSetter.src = this.data.audio;
       data.analyserEl.setAttribute('audioanalyser', this.analyserSetter);
+
+      needsRefresh && data.analyserEl.components.audioanalyser.refreshSource();
     });
   },
 
